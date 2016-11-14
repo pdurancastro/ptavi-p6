@@ -15,7 +15,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
         # Escribe dirección y puerto del cliente (de tupla client_address)
-        self.wfile.write(b"Hemos recibido tu peticion")
+        #self.wfile.write(b"Hemos recibido tu peticion")
         cliente = self.rfile.read().decode('utf-8').split()
         #print(cliente)
         
@@ -26,14 +26,19 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             #Leyendo línea a línea lo que nos envía el cliente
             #line = self.rfile.read()
             print(metodo)
+            self.wfile.write(b"SIP/2.0 100 Trying\r\n")
+            self.wfile.write(b"SIP/2.0 180 Ring\r\n")
+            self.wfile.write(b"SIP/2.0 200 OK\r\n")
             #print("El cliente nos manda " + linea.decode('utf-8'))
         
         elif metodo == "BYE":
             print(metodo)
+            self.wfile.write(b"SIP/2.0 200 OK\r\n")
         
         elif metodo == "ACK":
             print(metodo)
-        
+            
+            
         else:
             print("NO ES EL METODO CORRECTO")
 
