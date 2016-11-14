@@ -26,7 +26,8 @@ print("Enviando: " + LINE)
 my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
 data = my_socket.recv(1024)
 
-print('Recibido -- ', data.decode('utf-8'))
+#print('Recibido --\r\n', data.decode('utf-8'))
+print(data.decode('utf-8'))
 print("Terminando socket...")
 
 # Cerramos todo
