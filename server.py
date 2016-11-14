@@ -26,23 +26,24 @@ class EchoHandler(socketserver.DatagramRequestHandler):
             #line = self.rfile.read()
             print(metodo)
             
-            #UN MENSAJE????????????????????????????????????????
-            #------------------------------------------------------
-            self.wfile.write(b"SIP/2.0 100 Trying\r\n")
-            self.wfile.write(b"SIP/2.0 180 Ring\r\n")
-            self.wfile.write(b"SIP/2.0 200 OK\r\n")
+            self.wfile.write(b"SIP/2.0 100 Trying\r\n\r\n")
+            self.wfile.write(b"SIP/2.0 180 Ring\r\n\r\n")
+            self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
+            
             #print("El cliente nos manda " + linea.decode('utf-8'))
-            #------------------------------------------------------
+
         elif metodo == "BYE":
             print(metodo)
             self.wfile.write(b"SIP/2.0 200 OK\r\n")
         
         elif metodo == "ACK":
             print(metodo)
-        else:
+        elif metodo != "BYE" or metodo != "ACK" or metodo != "INVITE":
             print("NO ES EL METODO CORRECTO")
-            self.wfile.write(b"IP/2.0 405 Method Not Allowed\r\n") 
-
+            self.wfile.write(b"SIP/2.0 405 Method Not Allowed\r\n\r\n") 
+        else:
+            print("No estan bien escritos los argumentos")
+            self.wfile.write(b"SIP/2.0 400 Bad Request\r\n\r\n")
     
     
 if __name__ == "__main__":
@@ -50,7 +51,7 @@ if __name__ == "__main__":
     PUERTO = int(sys.argv[2])
     #print(IP + " " + str(PUERTO))
     
-    if len(sys.argv[0:4]) != 4:
+    if len(sys.argv[0:4]) != 4 or len(sys.argv) > 4 :
         #Deberia comprobar tambn si existe el fichero de audio
         print("Usage: python server.py IP port audio_file")
         sys.exit()
