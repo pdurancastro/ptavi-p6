@@ -22,7 +22,6 @@ class EchoHandler(socketserver.DatagramRequestHandler):
         
         metodo = cliente[0]
         if metodo == "INVITE":
-        #while 1:
             #Leyendo línea a línea lo que nos envía el cliente
             #line = self.rfile.read()
             print(metodo)
@@ -52,6 +51,7 @@ if __name__ == "__main__":
     #print(IP + " " + str(PUERTO))
     
     if len(sys.argv[0:4]) != 4:
+        #Deberia comprobar tambn si existe el fichero de audio
         print("Usage: python server.py IP port audio_file")
         sys.exit()
     
