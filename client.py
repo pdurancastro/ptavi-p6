@@ -11,11 +11,22 @@ import sys
 
 # Dirección IP del servidor.
 SERVER = 'localhost'
-PORT = 6001
 METODO = sys.argv[1]
+DIRECCION = sys.argv[2]
+ListaInfo = DIRECCION.split(':')
+print(ListaInfo)
+PORT = int(ListaInfo[1])
+#SERVER = ListaInfo[0]
+#print(SERVER)
+
+if len(sys.argv) != 3:
+    print("Usage: python client.py method receiver@IP:SIPport")
+    sys.exit()
+
+
 
 # Contenido que vamos a enviar
-LINE = METODO
+LINE = METODO + " " + SERVER+ " " + str(PORT)
 
 # Creamos el socket, lo configuramos y lo atamos a un servidor/puerto
 my_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -28,6 +39,8 @@ data = my_socket.recv(1024)
 
 #print('Recibido --\r\n', data.decode('utf-8'))
 print(data.decode('utf-8'))
+
+#Analizaria si tengo un 200 OK y mandaria de nuevo un ACK en este punto
 print("Terminando socket...")
 
 # Cerramos todo
